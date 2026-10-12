@@ -8,7 +8,7 @@
 
 **Build → test → proof.** A skills-only plugin that helps coding agents verify website changes in a real browser and show what actually worked.
 
-[Install](#install) · [Automatic use](#automatic-use) · [When to use it](#when-to-use-it) · [Русский](#по-русски)
+[Install](#install) · [Automatic use](#automatic-use) · [When to use it](#when-to-use-it) · [See it in action](#see-it-in-action)
 
 ## What you get
 
@@ -19,6 +19,48 @@
 - Clear **passed / failed / blocked / not checked** outcomes.
 
 The plugin supplies instructions and optional helpers. Your host or project supplies the browser. Missing dependencies are reported before installation; no silent browser downloads.
+
+## See it in action
+
+These are **real browser captures from a safe local demo**, not mockups or production screenshots. This run used Chromium 148 at a **390 × 844 desktop viewport**; it is not a physical phone test.
+
+### The process
+
+```mermaid
+flowchart LR
+    A[Inspect the affected flow] --> B[Make the scoped change]
+    B --> C[Exercise the actual controls]
+    C --> D{Expected result?}
+    D -- No --> E[Keep failure evidence and fix]
+    E --> C
+    D -- Yes --> F[Capture and review proof]
+    F --> G[Report results and limits]
+```
+
+### What the evidence looks like
+
+| 1. Exercise the editor | 2. Check the applied UI | 3. Inspect the server output |
+| :---: | :---: | :---: |
+| <img src="assets/demo/editor.png" width="240" alt="Banner editor after changing text and dragging the banner"> | <img src="assets/demo/applied.png" width="240" alt="Applied banner text and position in the page"> | <img src="assets/demo/result.png" width="240" alt="Actual SVG returned by the server and displayed through the result link"> |
+| Enter **BUILD TEST**, set duration to 7, then drag the banner. | Apply and confirm the new text is visible. | Open the completed export and verify **BUILD TEST** in the actual returned SVG. |
+
+### Watch the actual flow
+
+[![Animated preview of the actual browser flow](assets/demo/flow.gif)](https://github.com/pogotka/build-test-proof/releases/download/v0.2.1/flow.mp4)
+
+**[▶ Watch / download the full browser recording — MP4, 6.8 seconds](https://github.com/pogotka/build-test-proof/releases/download/v0.2.1/flow.mp4)**
+
+The animated preview comes from the recording. The MP4 shows the actual sequence: open editor → change text and duration → drag → apply → create export → open server result. It is not a slideshow or a trace.
+
+### Example final report
+
+> **Passed — editor interaction:** changed the label to BUILD TEST, waited for stable dialog geometry, and dragged it 30 px right and down inside the canvas. See the editor screenshot.
+>
+> **Passed — applied state:** the page displays BUILD TEST after Apply. See the applied screenshot.
+>
+> **Passed — server result:** opened the result link, retrieved the actual SVG with HTTP 200, and checked that BUILD TEST is present and rendered without horizontal clipping. See the output screenshot and flow recording.
+>
+> **Limits:** this static demo SVG does not encode duration or dragged coordinates. Those values were checked in the client and render request, not in temporal output. Draft saving, other browsers and physical devices were not checked in this recording.
 
 ## Install
 
@@ -95,14 +137,6 @@ python3 scripts/package.py
 ```
 
 The ZIP contains the plugin only. Optional helpers need Node.js (browser probe/geometry) or Python 3.9+ (index validator); no runtime dependency installation is bundled.
-
-## По-русски
-
-**BuildTestProof проверяет результат веб-правок и показывает доказательства.** Для визуальных изменений — свежие скриншоты рядом с пунктами отчёта. Для длинного пути — настоящее видео. Для серверного результата — проверка сохранённой записи или фактически созданного файла.
-
-Чтобы не писать название скилла каждый раз, установи и включи плагин, затем добавь правило из [AUTO_USE.md](plugins/build-test-proof/AUTO_USE.md) в общие инструкции Codex или `AGENTS.md` проекта. В новых чатах агент сможет применять его по задаче. Для внутренних backend-правок без влияния на веб-сценарий обязательного браузерного теста нет.
-
-[Инструкция пользователю](plugins/build-test-proof/USER_GUIDE.md) · [Инструкция агентам](plugins/build-test-proof/AGENT_GUIDE.md).
 
 ## License and author
 
