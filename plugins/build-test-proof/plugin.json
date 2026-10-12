@@ -1,0 +1,46 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "build-test-proof",
+  "version": "0.2.1",
+  "description": "Verify website changes with fresh screenshots, real flow recordings and honest debugging reports.",
+  "keywords": [
+    "web",
+    "verification",
+    "screenshots",
+    "debugging"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "BuildTestProof",
+        "shortDescription": "Website changes with evidence",
+        "longDescription": "Guides coding agents to check affected website flows during implementation, rerun after fixes, and associate each visual change with fresh screenshots. Longer flows get actual browser recordings when supported. Reports separate verified results, unresolved issues and unchecked behavior. Uses host browser tools or an existing project browser setup; does not supply a browser or install dependencies without approval. Websites only.",
+        "category": "Developer Tools",
+        "capabilities": [
+          "Website flow verification",
+          "Screenshot evidence",
+          "Flow video guidance",
+          "Evidence-led debugging"
+        ],
+        "defaultPrompt": [
+          "Verify this website change and show screenshot evidence beside each result.",
+          "Reproduce this UI bug, fix it, and rerun the affected flow with evidence."
+        ],
+        "brandColor": "#0E766E",
+        "composerIcon": "./assets/icon.svg",
+        "logo": "./assets/icon.svg",
+        "developerName": "npdev",
+        "websiteURL": "https://npdev.ru"
+      },
+      "publication": {
+        "release_notes": "Clarify visual and web-facing backend activation, add automatic-use instructions and GitHub distribution."
+      }
+    }
+  },
+  "author": {
+    "name": "npdev",
+    "url": "https://npdev.ru"
+  },
+  "homepage": "https://npdev.ru",
+  "license": "MIT"
+}

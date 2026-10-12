@@ -1,0 +1,20 @@
+{
+  "name": "build-test-proof",
+  "interface": {
+    "displayName": "BuildTestProof"
+  },
+  "plugins": [
+    {
+      "name": "build-test-proof",
+      "source": {
+        "source": "local",
+        "path": "./plugins/build-test-proof"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

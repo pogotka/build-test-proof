@@ -1,0 +1,7 @@
+interface:
+  display_name: "BuildTestProof"
+  short_description: "Verify website changes with browser evidence"
+  default_prompt: "Use $build-test-proof to verify this website change and show evidence beside each result."
+
+policy:
+  allow_implicit_invocation: true
