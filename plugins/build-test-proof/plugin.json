@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "build-test-proof",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Verify website changes with fresh screenshots, real flow recordings and honest debugging reports.",
   "keywords": [
     "web",
@@ -33,7 +33,7 @@
         "websiteURL": "https://npdev.ru"
       },
       "publication": {
-        "release_notes": "Clarify visual and web-facing backend activation, add automatic-use instructions and GitHub distribution."
+        "release_notes": "Portable skill installation for Cursor, Claude Code, GitHub Copilot and OpenCode; Claude Code marketplace; harness-specific discovery guidance."
       }
     }
   },

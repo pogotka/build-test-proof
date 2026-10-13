@@ -8,7 +8,7 @@
 
 **Build → test → proof.** A skills-only plugin that helps coding agents verify website changes in a real browser and show what actually worked.
 
-[Install](#install) · [Automatic use](#automatic-use) · [When to use it](#when-to-use-it) · [See it in action](#see-it-in-action)
+[Install](#install) · [Cursor / Claude / Copilot / OpenCode](HARNESSES.md) · [Automatic use](#automatic-use) · [When to use it](#when-to-use-it) · [See it in action](#see-it-in-action)
 
 ## What you get
 
@@ -64,6 +64,30 @@ The animated preview comes from the recording. The MP4 shows the actual sequence
 
 ## Install
 
+**Choose your harness:** [Codex / OpenAI plugin](#codex--openai) · [Cursor, Claude Code, Copilot and OpenCode](HARNESSES.md).
+
+### Cursor / Claude / Copilot / OpenCode
+
+From a reviewed clone of this repository:
+
+```sh
+python3 scripts/install_skill.py --host cursor --scope user --dry-run
+python3 scripts/install_skill.py --host cursor --scope user
+```
+
+Replace `cursor` with `claude`, `copilot` or `opencode`. For project scope, add `--scope project --project /absolute/path/to/project`. The installer preserves conflicting existing files and does not install browser packages or edit your rules. [Full setup and automatic-use guide](HARNESSES.md).
+
+Claude Code also supports the included native marketplace:
+
+```text
+/plugin marketplace add pogotka/build-test-proof
+/plugin install build-test-proof@build-test-proof
+```
+
+Choose standalone skill or plugin; avoid duplicates. Other hosts can use the standalone skill ZIP where they support the Agent Skills format. Their discovery paths and runtime capabilities must be checked individually.
+
+### Codex / OpenAI
+
 With a Codex client supporting plugin marketplaces:
 
 ```sh
@@ -87,7 +111,7 @@ Already using the local installation? Keep it; do not install a duplicate just t
 
 The skill allows implicit invocation and describes the relevant work. The agent can select it without a skill mention when the task matches. This is task routing, not an always-on event hook, and selection is not guaranteed in every chat.
 
-For consistent personal defaults, put the block from [AUTO_USE.md](plugins/build-test-proof/AUTO_USE.md) in `~/.codex/AGENTS.md`. For one project, put it in that project's `AGENTS.md`. Preserve existing instructions and check for `AGENTS.override.md` precedence.
+For Codex personal defaults, put the block from [AUTO_USE.md](plugins/build-test-proof/AUTO_USE.md) in `~/.codex/AGENTS.md`. For one project, put it in that project's `AGENTS.md`. Preserve existing instructions and check for `AGENTS.override.md` precedence.
 
 Then an ordinary request is enough:
 
@@ -119,6 +143,8 @@ The preceding 0.2.0 implementation was exercised in fresh chats: explicit catalo
 
 0.2.1 clarifies routing for website-facing backend changes and adds distribution/automatic-use documentation. It retains the tested helpers. Real-project evidence is intentionally kept outside this public repository.
 
+The 0.3.0 distribution adds portable installers, a standalone skill ZIP and Claude Code native manifests. Installer behavior and package layout are tested; actual discovery/activation in the four additional harnesses has not been runtime verified in this authoring environment. See [compatibility status](HARNESSES.md#compatibility-status).
+
 ## Package and resources
 
 ```text
@@ -129,14 +155,17 @@ plugins/build-test-proof/
   AUTO_USE.md                     Persistent routing rule
   USER_GUIDE.md                    Installation and everyday use
   AGENT_GUIDE.md                   Project instructions
-scripts/package.py                Build a clean plugin ZIP
+scripts/package.py                Build plugin and standalone skill ZIPs
+scripts/install_skill.py          Install into the chosen harness
+.claude-plugin/marketplace.json   Claude Code marketplace
+HARNESSES.md                      Cross-harness setup and limits
 ```
 
 ```sh
 python3 scripts/package.py
 ```
 
-The ZIP contains the plugin only. Optional helpers need Node.js (browser probe/geometry) or Python 3.9+ (index validator); no runtime dependency installation is bundled.
+The plugin ZIP contains the plugin only; the standalone ZIP contains the skill folder and its resources. Optional helpers need Node.js (browser probe/geometry) or Python 3.9+ (index validator); no runtime dependency installation is bundled.
 
 ## License and author
 

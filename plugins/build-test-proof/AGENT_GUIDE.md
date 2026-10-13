@@ -1,37 +1,27 @@
-# BuildTestProof — инструкция агенту проекта
+# BuildTestProof project-agent guide
 
-Для изменения веб-интерфейса используй установленный BuildTestProof, если он доступен. Сначала прочитай инструкции самого проекта и сохрани рабочую область/чужой WIP. Плагин не расширяет пользовательский scope, разрешения на production, платёжные операции или установку зависимостей.
+Use the installed skill when a task changes website UI or user-facing web behavior. Respect the user's scope, repository instructions, unrelated WIP, dependency approvals and test/deployment gates. Skill installation grants no additional permissions.
 
-Для автоматического выбора по влиянию задачи на веб-сценарий см. [AUTO_USE.md](AUTO_USE.md). Внутренние backend-правки без изменения веб-поведения проверяются техническими тестами.
+## Persistent instructions
 
-## Готовый фрагмент для AGENTS.md
+Copy the impact-based rule from [AUTO_USE.md](AUTO_USE.md) into the selected host's documented instructions. For Cursor/Claude/Copilot/OpenCode, follow [harness integration](skills/build-test-proof/references/harnesses.md). Do not assume a Codex global AGENTS.md applies to every host; do not edit unrelated project instructions automatically.
 
-Этот фрагмент можно вручную добавить в инструкции выбранного проекта. Не применять его автоматически ко всем репозиториям.
+## Verification
 
-```md
-### Проверка веб-изменений
+Identify the route/flow and expected result. Inspect the real rendered state during implementation, perform the actual actions, fix within scope and repeat the same input. Before coordinate drag/resize, wait for stable geometry and obtain fresh bounds. Assert the actual position/size changed within the allowed region.
 
-При изменениях пользовательского веб-интерфейса используй BuildTestProof, если он доступен в каталоге скиллов текущей сессии. Прочитай его entrypoint и нужные references. Используй фактическое имя из каталога; установка плагина не доказывает, что старый чат его загрузил.
+For server-generated results, retrieve and inspect the completed output/readback through the ordinary user path. HTTP success, job-ready, saved parameters and client preview do not individually prove output correctness. Keep UI passes separate from failed/blocked server assertions.
 
-Определи affected route/flow и ожидаемый результат. Проверь фактическое взаимодействие в поддерживаемом host browser либо существующем совместимом браузерном setup проекта. Перед coordinate drag/resize дождись стабильной геометрии и возьми свежие координаты. После жеста проверь результат и разрешённые границы.
+Capture and view fresh screenshots beside meaningful visual claims. Record actual video for long multi-step flows, finalize/decode it and inspect representative states. Keep evidence outside application source. For a multi-run handoff, select the final run/revision and precise coverage in FINAL_INDEX.json; do not hide previous failures in the final set.
 
-Если сценарий создаёт серверный результат, проверь завершённый output/readback через обычный путь пользователя; HTTP success, job-ready, сохранённые параметры и client preview отдельно не доказывают его правильность. При ошибке сохрани failure evidence, исправь в scope и повтори тот же ввод.
+## Installation testing
 
-Сохраняй свежие screenshots вне исходников проекта и ставь их рядом с соответствующими пунктами итогового отчёта. Видео записывай для длинного пути с несколькими экранами/действиями; не для простой одноэкранной правки. Декодируй и просмотри записанный результат. Для нескольких попыток/артефактов веди один FINAL_INDEX.json, выбирающий финальный run, revision и точное покрытие.
+Distinguish catalog_explicit, catalog_implicit, manual_file and unavailable. Inspect the real fresh-session catalog; then verify explicit use and ordinary-prompt selection separately. Disk search does not prove host discovery. Standalone installations have their own version metadata; a plugin manifest is not required for a standalone skill.
 
-Не устанавливай пакеты, браузеры или системные инструменты без точного разрешения; назови missing dependency и предложи узкий совместимый setup. Не включай секреты/личные данные в evidence. Соблюдай исходные test/deploy gates проекта.
+## Optional helpers
 
-В конце отвечай на языке пользователя: изменения и реальные проверки, screenshots/video, failed/blocked/not checked, проблемы и предложения отдельно от выполненного. Если скилл отсутствует, честно сообщи это; manual loading допускается как fallback обычной задачи, но не как подтверждение catalog activation.
-```
+- `skills/build-test-proof/scripts/playwright-probe.cjs`: read-only Playwright module + Chromium launch probe; no installation.
+- `skills/build-test-proof/scripts/stable-box.cjs`: stable bounds observer; does not control a browser or prove hit testing.
+- `skills/build-test-proof/scripts/validate-index.py`: Python 3.9+ structural evidence-index validation; does not run tests or inspect media.
 
-## Проверка установки
-
-Смотри actual session catalog, installed version и host UI/CLI; различай `catalog_explicit`, `catalog_implicit`, `manual_file`, `unavailable`. Проверь explicit invocation в свежем чате, затем отдельный непрямой запрос. Не доказывай discovery дисковым поиском SKILL.md. Не меняй модель или соседние чаты ради проверки.
-
-## Необязательные helpers
-
-- `skills/build-test-proof/scripts/playwright-probe.cjs`: read-only module + Chromium launch probe. Node нужен только для этого выбранного пути.
-- `skills/build-test-proof/scripts/stable-box.cjs`: экспортирует waitForStableBox(getBox, options); не управляет браузером и не доказывает hit testing.
-- `skills/build-test-proof/scripts/validate-index.py`: Python 3.9+, проверяет FINAL_INDEX.json и ссылки; не запускает tests и не подтверждает истинность declared outcomes.
-
-Пути ресурсов определяй относительно установленного SKILL.md. Для недостающего runtime используй подход без helper либо запроси конкретную установку, не выполняй silent fetch. Читай references выборочно, когда соответствующий сценарий нужен.
+Resolve resources relative to the installed SKILL.md, not an authoring machine's path. Use only supported tools exposed by the current host. If screenshot/video display is unavailable, provide usable file links and disclose that limitation. Report results in the user's language and do not invent collected evidence.

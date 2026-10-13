@@ -1,67 +1,37 @@
-# BuildTestProof — инструкция пользователю
+# BuildTestProof user guide
 
-Плагин помогает агенту проверять веб-изменения в браузере, воспроизводить ошибки, повторять проверки после исправления и показывать доказательства рядом с результатами. Он содержит скилл и необязательные локальные helpers. Браузер, аккаунт и сервер проекта он не поставляет.
+BuildTestProof helps an agent verify affected website flows, reproduce bugs, rerun after fixes and associate results with fresh screenshots or actual videos. It supplies a skill and optional helpers; the host/project supplies the browser and account session.
 
-## Из исходного workspace
+## Choose an installation
 
-Замени `/absolute/path/to/workspace` реальным workspace, где находится `.agents/plugins/marketplace.json`. Подключение через установленный Codex CLI:
+- Codex/OpenAI: use the repository marketplace and plugin installation in the [README](https://github.com/pogotka/build-test-proof#install).
+- Cursor, Claude Code, Copilot and OpenCode: use the [cross-harness installer guide](https://github.com/pogotka/build-test-proof/blob/main/HARNESSES.md).
+- Claude Code can alternatively install the native plugin from the included marketplace.
 
-```sh
-codex plugin marketplace add /absolute/path/to/workspace
-codex plugin add build-test-proof@web-change-proof-local --json
-codex plugin list --marketplace web-change-proof-local --json
-```
+Choose one installation source per host to avoid duplicate skill entries. After updating, follow the host's documented refresh/new-session flow. Installed files alone do not prove discovery in an already-open chat. A standalone copy has INSTALLATION.json; a plugin has its native manifest.
 
-Для личного использования публичная публикация не требуется. Локальная установка доступна в поддерживаемых новых чатах и проектах. Открой **новый чат**, выбери BuildTestProof через picker скиллов и попроси проверить конкретное изменение. На проверенном Codex имя в каталоге — `build-test-proof:build-test-proof`. Используй фактическое имя скилла, которое показывает клиент. Установка/enable сами по себе не доказывают, что скилл появился в уже открытом чате. Если нужен refresh/restart по правилам клиента, сначала сохрани текущую работу.
+## First use
 
-Явный вызов в новом чате:
+Check that BuildTestProof is present in the actual session catalog/picker. Select that entry explicitly for your first safe verification. Use the host's actual qualified name; Claude/Cursor standalone skills use `/build-test-proof`, while the Claude plugin is namespaced.
 
-> Используй $build-test-proof:build-test-proof для этой веб-правки. Проверь фактический результат и покажи доказательства рядом с пунктами.
+Then try an ordinary request without a skill mention:
 
-Для старого чата, в котором запись ещё отсутствует, можно попросить агента прочитать установленный entrypoint и применять его вручную. Это fallback, а не подтверждение автоматического discovery. Не требуется прерывать другие активные чаты ради перезапуска.
+> Fix the layout of this local website form. Verify submission and the actual saved record. Show screenshots beside meaningful visual changes; record the full flow only if it spans several steps. Do not change production.
 
-Пример запроса:
+Provide the project path/URL, affected page, expected result and permission to fix code. Log in to a safe test account yourself; do not paste secrets. Missing dependencies require an exact setup offer and approval before installation.
 
-> Примени BuildTestProof к правке формы в моём локальном проекте. Проверь отправку и фактически сохранённую запись, исправь найденную ошибку в рамках задачи. Покажи скриншот рядом с каждым изменением, а для полного пути через несколько экранов запиши видео. Production не изменяй.
+## Automatic use and scope
 
-Для первого запуска передай путь/URL проекта, страницу и ожидаемый результат, а также разрешены ли исправления кода. Для авторизации войди в безопасный тестовый аккаунт сам; секреты в чат не присылай. Если браузера нет, агент должен назвать точную недостающую зависимость и дождаться согласия на её установку.
+The skill description supports relevant-task selection. For persistent defaults, use the [automatic-use rule](AUTO_USE.md) in the correct host's instructions; [harness integration](skills/build-test-proof/references/harnesses.md) explains the differences. Local personal installation does not automatically cover remote/cloud sessions.
 
-## Установка ZIP на другом компьютере
+Use for visual changes or backend behavior affecting website flows, such as saved forms, authentication, exports or generated media. Internal backend work with no website behavior change needs appropriate technical tests, without mandatory browser captures.
 
-1. Распакуй ZIP в `plugins/build-test-proof/` внутри выбранного локального workspace. В этой папке должны оказаться корневой plugin.json и skills/.
-2. Создай `.agents/plugins/marketplace.json` в **workspace**, не в папке skills:
+## What a report should show
 
-```json
-{
-  "name": "web-change-proof-local",
-  "interface": { "displayName": "BuildTestProof — local" },
-  "plugins": [{
-    "name": "build-test-proof",
-    "source": { "source": "local", "path": "./plugins/build-test-proof" },
-    "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
-    "category": "Developer Tools"
-  }]
-}
-```
+Each change and its actual verification; fresh screenshots beside visual results; actual recordings for long flows; problems, fix/rerun, unresolved issues and unchecked behavior. Generated media must be checked as completed output, not only a client preview or accepted job. Screenshots and static outputs have limits that must be disclosed.
 
-3. Вызови `codex plugin marketplace add /absolute/path/to/workspace`, затем `codex plugin add build-test-proof@web-change-proof-local`. Проверь list и новый чат. В поддерживаемом desktop клиенте также можно выбрать локальный источник в каталоге плагинов. Не подключай MCP — его в пакете нет.
+Browser tests cover selected scenarios rather than all routes or all devices. A narrow desktop viewport is not a physical mobile device test. See the public README for a real safe demo.
 
-Пути в примере заменяются фактическими. Это локальная установка, не публичная публикация. [Официальный формат и local marketplace](https://developers.openai.com/plugins/build/plugins).
+## Dependencies and license
 
-## Что должно быть в результате
-
-Короткий отчёт на твоём языке: выполненные изменения, actual browser/URL/viewport, passed/failed/blocked/not checked, свежие PNG рядом с визуальными пунктами, реальное видео длинного сценария, неустранённые проблемы и непроверенные действия. Для нескольких прогонов — FINAL_INDEX.json, который однозначно выбирает финальные доказательства; исходники проекта не засоряются captures.
-
-Видео не нужно для одной простой визуальной правки. Narrow viewport не равен настоящему телефону. Успех UI не доказывает готовность серверного экспорта. F5 может штатно удалять черновик: способ проверки сохранения должен соответствовать правилам проекта.
-
-## Обновление и публикация
-
-После обновления файлов переустанови/обнови локальный пакет поддерживаемым host способом и проверь новый чат. Лицензия пакета — MIT, автор — npdev, сайт https://npdev.ru. Верификация public publisher identity выполняется только в кабинете OpenAI и не следует из этих локальных полей.
-
-Для чужого клиента отдельно проверь его поддержку portable plugins и discovery; этот пакет не обещает одинаковую интеграцию во всех агентах.
-
-Public submission: выбрать подтверждённую identity издателя и лицензию, заполнить настоящее listing metadata, загрузить ZIP в OpenAI developer dashboard, дождаться Metadata & Skills проверок, исправить findings и отправить на review; после approval выбрать публикацию. Успешный локальный тест не заменяет review. [Официальная отправка и публикация](https://developers.openai.com/plugins/deploy/submission). Пакет не продаёт подписки/кредиты и не обещает доход автору.
-
-## GitHub и автоматическое применение
-
-Публичная версия и установка из GitHub: [pogotka/build-test-proof](https://github.com/pogotka/build-test-proof). Для текущей локальной установки повторная установка не нужна. Правило для новых чатов и проектов: [AUTO_USE.md](AUTO_USE.md). Скилл полезен для backend-изменений, если они меняют результат веб-сценария; для чисто внутренних изменений обязательного браузерного теста нет.
+The portable instructions require no service. Optional Node helpers inspect Playwright or stable geometry; the optional evidence-index validator requires Python 3.9+. The installer/package builder also uses Python 3.9+ and does not fetch dependencies. MIT, npdev; [npdev.ru](https://npdev.ru).

@@ -13,6 +13,6 @@ Use the real catalog name. Some hosts namespace the skill as `build-test-proof:b
 
 After local package updates, refresh/reinstall with the host's supported command and create a fresh session. If the host documents a restart requirement, report that limitation rather than restarting an active user session or interrupting unrelated chats without need.
 
-For agent/project setup, use the included [AGENT_GUIDE.md](../../../AGENT_GUIDE.md). Explicit project instructions may request this workflow for affected website changes while preserving the project's own test/deploy rules. Do not edit every project's AGENTS.md or user-wide settings automatically.
+For agent/project setup, use the [harness-specific guidance](harnesses.md) and the [project-agent guide](https://github.com/pogotka/build-test-proof/blob/main/plugins/build-test-proof/AGENT_GUIDE.md). Explicit project instructions may request this workflow for affected website changes while preserving the project's own test/deploy rules. Do not edit every project's AGENTS.md or user-wide settings automatically.
 
 Current OpenAI packaging: root plugin.json + skills/, local marketplace discovery and installation. [Official documentation](https://developers.openai.com/plugins/build/plugins). Public distribution requires separate dashboard validation and publisher metadata: [submission documentation](https://developers.openai.com/plugins/deploy/submission). Other coding agents may support portable skills but their plugin installation/discovery remains host-specific and must be tested rather than promised.

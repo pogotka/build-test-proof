@@ -1,4 +1,4 @@
-# Automatic use / Автоматическое применение
+# Automatic use
 
 `policy.allow_implicit_invocation: true` permits the host to select this skill from its description. It is not an always-on hook and does not guarantee selection in every chat. The plugin must be installed, enabled and visible in the current session catalog. Start a fresh chat after installation when discovery is stale.
 
@@ -15,3 +15,5 @@ For backend-only refactors, database indexes/migrations, infrastructure or non-w
 This adds a routing instruction, not a browser capability or permission to deploy. Avoid installing a second standalone copy of the same skill when the plugin already exposes it.
 
 Official references: [skill discovery](https://learn.chatgpt.com/docs/build-skills), [AGENTS.md precedence](https://learn.chatgpt.com/docs/agent-configuration/agents-md).
+
+For other hosts, use [harness-specific routing instructions](skills/build-test-proof/references/harnesses.md). The OpenAI YAML policy is not a cross-host setting.

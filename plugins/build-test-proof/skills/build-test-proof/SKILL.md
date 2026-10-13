@@ -13,6 +13,8 @@ Use this skill for changes to visible layout, web interactions, or backend behav
 
 For an internal backend refactor, index/migration, infrastructure or non-web job with no affected website behavior, use the project's relevant technical checks. Do not activate browser capture solely because the project has a frontend. If impact is uncertain, inspect the affected call path before choosing verification.
 
+For installation in Cursor, Claude Code, Copilot or OpenCode, read [references/harnesses.md](references/harnesses.md). Use the current host's tools, paths and invocation syntax; OpenAI policy metadata does not configure other hosts.
+
 ## Confirm invocation
 
 If this task is testing installation/discovery, first check whether the skill is actually listed in this fresh session. Record `catalog_explicit`, `catalog_implicit`, `manual_file` or `unavailable`, plus the observed entrypoint/tool evidence. Installed/enabled metadata alone does not prove discovery. Do not count manual file loading as catalog activation. Read [references/integration.md](references/integration.md) when checking installation or preparing project-agent instructions. Ordinary website tasks do not need an installation audit.

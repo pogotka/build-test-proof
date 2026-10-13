@@ -1,0 +1,13 @@
+{
+  "name": "build-test-proof",
+  "owner": {
+    "name": "npdev"
+  },
+  "plugins": [
+    {
+      "name": "build-test-proof",
+      "source": "./plugins/build-test-proof",
+      "description": "Verify website changes with fresh screenshots, real flow recordings and honest debugging reports."
+    }
+  ]
+}

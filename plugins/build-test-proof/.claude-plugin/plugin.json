@@ -1,0 +1,18 @@
+{
+  "name": "build-test-proof",
+  "version": "0.3.0",
+  "description": "Verify website changes with fresh screenshots, real flow recordings and honest debugging reports.",
+  "author": {
+    "name": "npdev",
+    "url": "https://npdev.ru"
+  },
+  "homepage": "https://npdev.ru",
+  "repository": "https://github.com/pogotka/build-test-proof",
+  "license": "MIT",
+  "keywords": [
+    "web",
+    "verification",
+    "screenshots",
+    "debugging"
+  ]
+}
